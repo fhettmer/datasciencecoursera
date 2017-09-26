@@ -1,0 +1,68 @@
+---
+title: 'Peer-graded Assignment: Statistical Inference Course Project'
+author: "Frank Hettmer"
+date: "24 September 2017"
+output:
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+
+```
+
+
+## R Markdown
+
+Based on the given information lambda = 0.2, n = 40 an Simulations >= 1000
+
+```{r}
+
+lambda<-0.2
+n<-40
+simulations=1000
+```
+
+Generate simulation data and fill data in a matrix structure
+
+```{r}
+
+simulationdata<-rexp(n*simulations, lambda)
+simulationmatrix =  matrix(simulationdata, nrow = 1000, ncol = 4)
+```
+Theoretical mean of exponential distribution is 1/lambda, i.e. 1/0.2 --> 5
+Sample mean overall is mean by all drawings and samplemean by simulation is mean by simulation
+
+```{r}
+
+theomean<-1/lambda
+samplemeanover<-mean(simulationdata)
+samplemeanbysimulation<- apply(simulationmatrix,1,mean)
+```
+
+Theoretical Variance of exponential distribution is (1/lambda)^2, i.e. (1/0.2)^2 and sample varianz overall is mean by all drawings and sample variance by simulation by simulation
+
+```{r}
+
+theosd<-(1/lambda)
+theovar<-(1/lambda)^2
+samplevarover<-var(simulationdata)
+samplevarbysimulation<- apply(simulationmatrix,1,var)
+```
+
+The results as overview:
+Mean: theoretical   5 sample        4.9900
+
+Standard Deviation: theoretical   5 sample        5.0049
+
+Variance: theoretical   25 sample        25.0491
+
+The histogramm shows that the distribution is approximately normal
+
+```{r}
+library(ggplot2)
+hist(samplemeanbysimulation, col="darkblue", main="Theoretical vs actual mean for rexp()", breaks=20)
+abline(v=mean(samplemeanbysimulation), lwd="4", col="red")
+text(3.6, 90, paste("Actual mean = ", round(mean(samplemeanbysimulation),2), "\n Theoretical mean = 5" ), col="red")
+```
+
